@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  mariadb:
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345moodle
+      - MARIADB_DATABASE=moodle_db
+      - MARIADB_USER=mariadb_user
+      - MYSQL_PASSWORD=mariadb_pass
+    volumes:
+      - ./mariadb/data:/var/lib/mysql
+  moodle:
+    image: mckatoo/moodle
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./src:/var/www/html
+      - ./moodledata:/var/www/moodledata
+    depends_on:
+      - mariadb
